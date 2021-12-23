@@ -66,6 +66,17 @@ buttons.forEach((button) => {
             stack[stack.length-1] = stack[stack.length-1] + '.';
             display.textContent = stack.join(' ').replace('add', '+').replace('subtract', '-').replace('multiply', 'x').replace('divide', '÷');
             decimalHold=1;
+        //backspace selection
+        } else if (button.id == 'delete' && parseInt(stack[stack.length-1])) { //check that a number is on top of the stack
+            if (stack[stack.length-1].slice(-1) == '.'){ //need to flip decimal bit if deleting the decimal, but cannot always flip back to zero in case a decimal is further upstream in the number on top of the stack
+                decimalHold = 0;
+            }
+            stack[stack.length-1] = stack[stack.length-1].slice(0, -1);
+            if (stack[stack.length-1] == '') {
+                stack.pop();
+            }
+
+            display.textContent = stack.join(' ').replace('add', '+').replace('subtract', '-').replace('multiply', 'x').replace('divide', '÷');
         //equation operation
         } else if (button.id == 'equals') {
             if (!parseInt(stack[stack.length-1])) {
@@ -73,7 +84,6 @@ buttons.forEach((button) => {
             }
             while(stack.length>1) {
                 let firstNum = Number(stack.shift());
-                console.log(typeof stack[stack.length-1]);
                 let operation = stack.shift();
                 let secondNum = Number(stack.shift());
                 if (operation == 'add') {
@@ -96,9 +106,12 @@ buttons.forEach((button) => {
                 stack = [];
             } else {
                 display.textContent = Math.floor(stack[0]*1000) / 1000;
-                stack[0] = Math.floor(stack[0]*1000) / 1000;
+                stack[0] = (Math.floor(stack[0]*1000) / 1000);
+                if (!Number.isInteger(stack[0])) {
+                    decimalHold = 1;
+                }
+                stack[0] = stack[0].toString();
                 equalHold = 1;
-                decimalHold = 0;
             }
         }
     });
