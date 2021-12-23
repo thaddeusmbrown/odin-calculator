@@ -29,6 +29,7 @@ let equalHold = 0; //this bit will flip after hitting equals, so that starting w
 let decimalHold = 0; //this bit will flip if a decimal is already in the number, to prevent adding multiple decimals
 buttons.forEach((button) => {
     button.addEventListener('click', () => {
+        //number selections
         if (parseInt(button.innerText)+1) { //if (a number)
             if (stack.length == 0 || equalHold) { //if the stack is empty or an equation was just completed
                 stack[0] = button.id;
@@ -38,33 +39,43 @@ buttons.forEach((button) => {
                 stack[stack.length-1] = [stack[stack.length-1],button.id].join('');
                 equalHold = 0;
                 display.textContent = stack.join(' ').replace('add', '+').replace('subtract', '-').replace('multiply', 'x').replace('divide', '÷');
-            } else {
+            } else { //continue typing in the next number
                 stack.push(button.id);
-                equalHold=0;
+                equalHold = 0;
                 display.textContent = stack.join(' ').replace('add', '+').replace('subtract', '-').replace('multiply', 'x').replace('divide', '÷');
             }
+        //operation selections    
         } else if (stack.length != 0 && button.id == 'add' || button.id == 'subtract' || button.id == 'multiply' || button. id == 'divide') {
-            if (parseInt(stack[stack.length-1])) {
+            if (parseInt(stack[stack.length-1])) { //if a number is on the stack, add the chosen operation
                 stack.push(button.id);
-                equalHold=0;
+                equalHold = 0;
+                decimalHold = 0;
                 display.textContent = stack.join(' ').replace('add', '+').replace('subtract', '-').replace('multiply', 'x').replace('divide', '÷');
-            } else {
+            } else { //if another operation is on top of the stack, replace it with the newly chosen operation
                 stack[stack.length-1]=button.id;
                 display.textContent = stack.join(' ').replace('add', '+').replace('subtract', '-').replace('multiply', 'x').replace('divide', '÷');
             }
-        } else if (button.id == 'clear') {
+        //clear selection    
+        } else if (button.id == 'clear') { //clear the display and stack
             stack = [];
             equalHold = 0;
-            display.textContent = stack;
-        } else {
+            decimalHold = 0;
+            display.textContent = stack.join(' ').replace('add', '+').replace('subtract', '-').replace('multiply', 'x').replace('divide', '÷');
+        //decimal selection
+        } else if (button.id == 'dot' && parseInt(stack[stack.length-1]) && !decimalHold) { //checks if a number is on top of the stack and if the decimalHold bit to see if a decimal is already on the number in the stack
+            stack[stack.length-1] = stack[stack.length-1] + '.';
+            display.textContent = stack.join(' ').replace('add', '+').replace('subtract', '-').replace('multiply', 'x').replace('divide', '÷');
+            decimalHold=1;
+        //equation operation
+        } else if (button.id == 'equals') {
             if (!parseInt(stack[stack.length-1])) {
                 stack.pop();
             }
             while(stack.length>1) {
-                let firstNum = parseInt(stack.shift());
+                let firstNum = Number(stack.shift());
                 console.log(typeof stack[stack.length-1]);
                 let operation = stack.shift();
-                let secondNum = parseInt(stack.shift());
+                let secondNum = Number(stack.shift());
                 if (operation == 'add') {
                     stack.unshift(operate(add, firstNum, secondNum).toString());
                 } else if (operation == 'subtract') {
@@ -87,6 +98,7 @@ buttons.forEach((button) => {
                 display.textContent = Math.floor(stack[0]*1000) / 1000;
                 stack[0] = Math.floor(stack[0]*1000) / 1000;
                 equalHold = 1;
+                decimalHold = 0;
             }
         }
     });
