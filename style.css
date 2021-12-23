@@ -7,10 +7,18 @@
 }
 
 .display {
+    display:flex;
     background-color: teal;
     flex: 1 0 auto;
     gap: 8px;
     height:80px;
+    justify-content: flex-end;
+    padding-right: 8px;
+    align-items: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 40px;
+    color:white;
 }
 
 .buttons {
