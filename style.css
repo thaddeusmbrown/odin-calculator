@@ -1,9 +1,25 @@
+html, body {
+    margin:0px;
+}
+
+.window {
+    display:flex;
+    height: 100vh;
+    justify-content: center;
+    background-color: rgb(12, 12, 48);
+}
+
+
 .container {
     display:flex;
     flex-direction: column;
     width:344px;
-    justify-content:space-between;
+    justify-self:center;
+    align-self: center;
     gap:8px;
+    padding: 16px;
+    background-color:rgba(221, 194, 142, 0.939);
+    border-radius:16px;
 }
 
 .display {
@@ -19,6 +35,7 @@
     font-weight: bold;
     font-size: 40px;
     color:white;
+    border-radius:4px;
 }
 
 .buttons {
@@ -40,6 +57,29 @@ button {
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
     font-size: 40px;
+    color:white;
+    border-radius: 8px;
+    border:none;
+}
+
+#delete {
+    background-color:maroon;
+    font-size:72px;
+    align-content: flex-start;
+    padding-bottom: 16px;
+}
+
+#clear {
+    background-color:gold;
+    color:black;
+}
+
+#add, #subtract, #multiply, #divide, #equals {
+    background-color: gray
+}
+
+[id="0"], [id="1"], [id="2"], [id="3"], [id="4"], [id="5"], [id="6"], [id="7"], [id="8"], [id="9"], #dot  {
+    background-color:rgb(84, 83, 83) 
 }
 
 
